@@ -5,13 +5,14 @@ from .PsConfig import PsConfig
 
 class Settings:
     def __init__(self, **kwargs):
-        self.config = PsConfig('config.ini', '../../cfg')
+        self.config = PsConfig('config.ini', '../cfg')
         self.config.GetConfig()
 
         self._setup_screen(kwargs.get('use_fullscreen',
                                       not self.config.getboolean('DEFAULT', 'windowed_mode')))
 
         self.leaderboard_db_location = self.config.get('LEADERBOARD', 'database_file_path')
+        self.snake_speed = self.config.get('SNAKE', 'speed')
 
     def _setup_screen(self, use_fullscreen):
         self.show_fps = self.config.getboolean('DEFAULT', 'show_fps')

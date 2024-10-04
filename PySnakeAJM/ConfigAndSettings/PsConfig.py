@@ -47,6 +47,9 @@ class PsConfig(BetterConfig):
                         'bg_color': ColorConverter.rgb_to_hex((0, 0, 0)),
                         'show_fps': 'False'
                     },
+                'SNAKE': {
+                    'speed': 25
+                },
                 'SCOREBOARD':
                     {
                         'font_name': '',
