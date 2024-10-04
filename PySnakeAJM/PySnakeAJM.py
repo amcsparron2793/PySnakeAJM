@@ -5,9 +5,9 @@ Snake for Python
 
 """
 import pygame
-from Button import Button
-from HIDEventHandler import _HIDEventHandler
-from Settings import Settings
+from ConfigAndSettings.Button import Button
+from ConfigAndSettings.HIDEventHandler import _HIDEventHandler
+from ConfigAndSettings.Settings import Settings
 
 
 class PySnakeAJM(_HIDEventHandler):

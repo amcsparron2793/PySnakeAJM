@@ -1,6 +1,6 @@
 from BetterConfigAJM import BetterConfigAJM as BetterConfig
 from pathlib import Path
-from utils import ColorConverter
+from .utils import ColorConverter
 
 
 class PsConfig(BetterConfig):

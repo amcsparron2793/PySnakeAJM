@@ -1,11 +1,11 @@
 from pygame import display
-from utils import ColorConverter
-from PsConfig import PsConfig
+from .utils import ColorConverter
+from .PsConfig import PsConfig
 
 
 class Settings:
     def __init__(self, **kwargs):
-        self.config = PsConfig('config.ini', '../cfg')
+        self.config = PsConfig('config.ini', '../../cfg')
         self.config.GetConfig()
 
         self._setup_screen(kwargs.get('use_fullscreen',
