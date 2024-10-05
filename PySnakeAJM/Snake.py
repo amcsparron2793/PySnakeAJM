@@ -72,7 +72,7 @@ class Snake(Segment):
         #         f"Moving Right: {self.moving_right}, Moving Left: {self.moving_left}, Moving Up: {self.moving_up}, Moving Down: {self.moving_down}")
         #     print(f"Snake Position: x={self.snake_rect.x}, y={self.snake_rect.y}")
 
-    def biltme(self):
+    def blitme(self):
         """ Draw the snake at its current location. """
         self.screen.fill(BLACK)  # Clear screen with black before drawing
         draw.rect(self.screen, WHITE, self.snake_rect)
