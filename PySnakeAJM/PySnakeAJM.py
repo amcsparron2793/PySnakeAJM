@@ -5,7 +5,8 @@ Snake for Python
 
 """
 import pygame
-from Snake import Segment, Snake
+from Snake import Snake
+from Apple import Apple
 from InitGame import InitPySnakeAJM
 
 
@@ -16,10 +17,11 @@ class PySnakeAJM(InitPySnakeAJM):
         pygame.init()
         super().__init__()
         self.snake = Snake(self)
+        self.apple = Apple(self, 123, 123)
 
     def _update_and_refresh_snake(self):
         self.snake.update()
-        self.snake.biltme()
+        self.snake.blitme()
 
     def _check_system_events(self):
         """
@@ -51,6 +53,7 @@ class PySnakeAJM(InitPySnakeAJM):
         while self.running:
             self._check_system_events()
             self._update_and_refresh_snake()
+            self.apple.blitme()
             pygame.display.flip()
             self.clock.tick(self.settings.fps)
 
