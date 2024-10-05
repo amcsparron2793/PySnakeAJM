@@ -3,7 +3,7 @@ from ConfigAndSettings import *
 
 
 class Segment(sprite.Sprite):
-    SEGMENT_LENGTH = 50
+    SEGMENT_LENGTH = 25
     SEGMENT_WIDTH = 10
 
     def __init__(self, ps_game, x: int, y: int):
@@ -23,11 +23,12 @@ class Snake(sprite.Sprite):
         super().__init__()
         self.game = ps_game
         self.settings = self.game.settings
-        self.screen = self.game.screen
-        self.length = 0
+        self.screen = self.settings.screen
         self.screen_rect = self.screen.get_rect()
-        # TODO: add snake rect
-        # TODO: add snake movement
+        self.length = 1
+        # Initialize snake_rect with initial position and size
+        self.snake_rect = Rect(0, 0, Segment.SEGMENT_LENGTH, Segment.SEGMENT_WIDTH)
+        self.center_snake()
 
         self.moving_left = False
         self.moving_right = False
@@ -35,30 +36,38 @@ class Snake(sprite.Sprite):
         self.moving_down = False
 
     def update(self):
-        """ Update the ships position based on the movement flag. """
-        # updates the ships x value, not the rect.
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self.settings.snake_speed
-        if self.moving_left and self.rect.left > 0:
-            self.x -= self.settings.snake_speed
+        """ Update the snake's position based on the movement flag. """
+        # FIXME: cant change direction until a wall is hit
+        if self.moving_right and self.snake_rect.right < self.screen_rect.right:
+            self.snake_rect.x += self.settings.snake_speed
+        elif self.moving_right and self.snake_rect.right == self.screen_rect.right:
+            self.moving_right = False
 
-        # Update rect object from self.x
-        self.rect.x = self.x
+        if self.moving_left and self.snake_rect.left > 0:
+            self.snake_rect.x -= self.settings.snake_speed
+        elif self.moving_left and self.snake_rect.left == 0:
+            self.moving_left = False
+
+        if self.moving_up and self.snake_rect.top > 0:
+            self.snake_rect.y -= self.settings.snake_speed
+        elif self.moving_up and self.snake_rect.top == 0:
+            self.moving_up = False
+
+        if self.moving_down and self.snake_rect.bottom < self.screen_rect.bottom:
+            self.snake_rect.y += self.settings.snake_speed
+        elif self.moving_down and self.snake_rect.bottom == self.screen_rect.bottom:
+            self.moving_down = False
+
+        # if self.moving_up or self.moving_down or self.moving_left:
+        #     print(
+        #         f"Moving Right: {self.moving_right}, Moving Left: {self.moving_left}, Moving Up: {self.moving_up}, Moving Down: {self.moving_down}")
+        #     print(f"Snake Position: x={self.snake_rect.x}, y={self.snake_rect.y}")
 
     def biltme(self):
-        """ Draw the ship at its current location. """
-        self.screen.blit(self.image, self.rect)
+        """ Draw the snake at its current location. """
+        self.screen.fill(BLACK)  # Clear screen with black before drawing
+        draw.rect(self.screen, WHITE, self.snake_rect)
 
-    def center_ship(self):
-        """ Center the ship on screen."""
-        self.rect.midbottom = self.screen_rect.midbottom
-        self.x = float(self.rect.x)
-
-    def move_left(self):
-        if self.x > 0:
-            self.x -= self.settings.ship_speed
-
-    def move_right(self):
-        if self.x < self.settings.screen_width - self.width:
-            self.x += self.settings.ship_speed
-
+    def center_snake(self):
+        """ Center the snake on screen."""
+        self.snake_rect.center = self.screen_rect.center

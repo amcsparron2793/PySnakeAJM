@@ -19,12 +19,15 @@ class _HIDEventHandler:
             _check_keydown_events(event)
         """
         if event.key == pygame.K_RIGHT:
-            # move the ship to the right
-            self.player.moving_right = True
-
+            # move the snake to the right
+            self.snake.moving_right = True
         elif event.key == pygame.K_LEFT:
-            # move the ship to the left
-            self.player.moving_left = True
+            # move the snake to the left
+            self.snake.moving_left = True
+        elif event.key == pygame.K_UP:
+            self.snake.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.snake.moving_down = True
 
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             # self.sb.write_highscore()
@@ -48,14 +51,14 @@ class _HIDEventHandler:
         :param event: The key-up event that is triggered
         :type event: pygame.event.Event
         """
-        if event.key == pygame.K_RIGHT:
-            self.player.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.player.moving_left = False
-        elif event.key == pygame.K_UP:
-            self.player.moving_up = True
-        elif event.key == pygame.K_DOWN:
-            self.player.moving_down = True
+        # if event.key == pygame.K_RIGHT:
+        #     self.snake.moving_right = False
+        # elif event.key == pygame.K_LEFT:
+        #     self.snake.moving_left = False
+        # elif event.key == pygame.K_UP:
+        #     self.snake.moving_up = False
+        # elif event.key == pygame.K_DOWN:
+        #     self.snake.moving_down = False
 
     def _check_play_button(self, mouse_pos):
         """

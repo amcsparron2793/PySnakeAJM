@@ -12,7 +12,8 @@ class Settings:
                                       not self.config.getboolean('DEFAULT', 'windowed_mode')))
 
         self.leaderboard_db_location = self.config.get('LEADERBOARD', 'database_file_path')
-        self.snake_speed = self.config.get('SNAKE', 'speed')
+        self.snake_speed = self.config.getfloat('SNAKE', 'speed')
+        self.fps = self.config.getint('DEFAULT', 'fps')
 
     def _setup_screen(self, use_fullscreen):
         self.show_fps = self.config.getboolean('DEFAULT', 'show_fps')

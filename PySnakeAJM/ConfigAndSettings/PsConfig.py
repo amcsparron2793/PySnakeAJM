@@ -37,6 +37,7 @@ class PsConfig(BetterConfig):
             {
                 'DEFAULT':
                     {
+                        'fps': 60,
                         'safe_mode': 'False',
                         'windowed_mode': 'True',
                         'screen_width': 800,
@@ -48,7 +49,7 @@ class PsConfig(BetterConfig):
                         'show_fps': 'False'
                     },
                 'SNAKE': {
-                    'speed': 25
+                    'speed': 1
                 },
                 'SCOREBOARD':
                     {
