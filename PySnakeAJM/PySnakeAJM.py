@@ -9,7 +9,7 @@ import pygame
 from Snake import Snake
 from Apple import Apple
 from InitGame import InitPySnakeAJM
-
+from ConfigAndSettings import *
 
 
 class PySnakeAJM(InitPySnakeAJM):
@@ -24,11 +24,15 @@ class PySnakeAJM(InitPySnakeAJM):
     def _get_random_apple_location(self):
         self.apple_x = random.randint(0, self.settings.screen_width)
         self.apple_y = random.randint(0, self.settings.screen_height)
-        print(self.apple_x, self.apple_y)
 
-    def _update_and_refresh_snake(self):
+    def _update_snake(self):
+        self.settings.screen.fill(BLACK)
         self.snake.update()
+
+    def draw_sprites(self):
         self.snake.blitme()
+        self.apple.blitme()
+
 
     def _check_system_events(self):
         """
@@ -59,8 +63,9 @@ class PySnakeAJM(InitPySnakeAJM):
     def GameLoop(self):
         while self.running:
             self._check_system_events()
-            self._update_and_refresh_snake()
-            self.apple.blitme()
+            self._update_snake()
+            self.draw_sprites()
+
             pygame.display.flip()
             self.clock.tick(self.settings.fps)
 

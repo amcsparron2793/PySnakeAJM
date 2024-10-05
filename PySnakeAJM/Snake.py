@@ -1,4 +1,5 @@
-from pygame import sprite, draw, Rect
+from pygame import sprite, draw, Rect, Surface
+from pygame.transform import rotate
 from ConfigAndSettings import *
 
 
@@ -26,15 +27,18 @@ class Snake(Segment):
         self.screen = self.settings.screen
         self.screen_rect = self.screen.get_rect()
         self.length = 1
+        self.snake_color = GREEN
+        self.original_snake_image = Surface((self.SEGMENT_LENGTH, self.SEGMENT_WIDTH))
+        self.original_snake_image.fill(self.snake_color)
+        self.snake_img = self.original_snake_image
+
 
         # Initialize snake_rect with initial position and size
-        self.snake_rect = self.first_seg_rect
+        self.snake_rect = self.snake_img.get_rect()#self.first_seg_rect
         self.center_snake()
 
-        self.moving_left = False
-        self.moving_right = False
-        self.moving_up = False
-        self.moving_down = False
+        self.direction = ''  # Initial direction
+
 
     @property
     def first_segment_location(self):
@@ -46,26 +50,14 @@ class Snake(Segment):
 
 
     def update(self):
-        """ Update the snake's position based on the movement flag. """
-        if self.moving_right and self.snake_rect.right < self.screen_rect.right:
-            self.snake_rect.x += self.settings.snake_speed
-        elif self.moving_right and self.snake_rect.right == self.screen_rect.right:
-            self.moving_right = False
-
-        if self.moving_left and self.snake_rect.left > 0:
-            self.snake_rect.x -= self.settings.snake_speed
-        elif self.moving_left and self.snake_rect.left == 0:
-            self.moving_left = False
-
-        if self.moving_up and self.snake_rect.top > 0:
-            self.snake_rect.y -= self.settings.snake_speed
-        elif self.moving_up and self.snake_rect.top == 0:
-            self.moving_up = False
-
-        if self.moving_down and self.snake_rect.bottom < self.screen_rect.bottom:
-            self.snake_rect.y += self.settings.snake_speed
-        elif self.moving_down and self.snake_rect.bottom == self.screen_rect.bottom:
-            self.moving_down = False
+        if self.direction == 'RIGHT':
+            self.snake_rect.x += self.game.settings.snake_speed
+        elif self.direction == 'LEFT':
+            self.snake_rect.x -= self.game.settings.snake_speed
+        elif self.direction == 'UP':
+            self.snake_rect.y -= self.game.settings.snake_speed
+        elif self.direction == 'DOWN':
+            self.snake_rect.y += self.game.settings.snake_speed
 
         # if self.moving_up or self.moving_down or self.moving_left:
         #     print(
@@ -74,8 +66,18 @@ class Snake(Segment):
 
     def blitme(self):
         """ Draw the snake at its current location. """
-        self.screen.fill(BLACK)  # Clear screen with black before drawing
-        draw.rect(self.screen, WHITE, self.snake_rect)
+        self.rotate_image()
+        self.settings.screen.blit(self.snake_img, self.snake_rect)
+
+    def rotate_image(self):
+        if self.direction == 'RIGHT':
+            self.original_snake_image = rotate(self.original_snake_image, 0)
+        elif self.direction == 'LEFT':
+            self.original_snake_image = rotate(self.original_snake_image, 180)
+        elif self.direction == 'UP':
+            self.original_snake_image = rotate(self.original_snake_image, 90)
+        elif self.direction == 'DOWN':
+            self.original_snake_image = rotate(self.original_snake_image, -90)
 
     def center_snake(self):
         """ Center the snake on screen."""

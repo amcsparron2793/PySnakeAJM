@@ -25,17 +25,15 @@ class _HIDEventHandler:
         Example:
             _check_keydown_events(event)
         """
-        self._stop_movement_on_any_keypress(event)
+        #self._stop_movement_on_any_keypress(event)
         if event.key == pygame.K_RIGHT:
-            # move the snake to the right
-            self.snake.moving_right = True
+            self.snake.direction = 'RIGHT'
         elif event.key == pygame.K_LEFT:
-            # move the snake to the left
-            self.snake.moving_left = True
+            self.snake.direction = 'LEFT'
         elif event.key == pygame.K_UP:
-            self.snake.moving_up = True
+            self.snake.direction = 'UP'
         elif event.key == pygame.K_DOWN:
-            self.snake.moving_down = True
+            self.snake.direction = 'DOWN'
 
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             # self.sb.write_highscore()
