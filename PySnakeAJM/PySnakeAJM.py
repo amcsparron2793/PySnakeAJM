@@ -33,7 +33,7 @@ class PySnakeAJM(InitPySnakeAJM):
         collision = self.apple.rect.collidepoint(self.snake.front_of_snake)
         if collision:
             self._get_random_apple_location()
-            self.snake.length += 1
+            self.snake.grow()
             self.apple = Apple(self, self.apple_x, self.apple_y)
 
 
@@ -66,9 +66,18 @@ class PySnakeAJM(InitPySnakeAJM):
     def GameLoop(self):
         while self.running:
             self._check_system_events()
-            self._update_snake()
-            self.draw_sprites()
+            self.snake.update()
             self._check_apple_snakehead_collision()
+
+            # Clear the screen
+            self.settings.screen.fill(BLACK)
+
+            # Redraw the snake and apple
+            self.snake.blitme()
+            self.apple.blitme()
+
+            pygame.display.flip()
+            self.clock.tick(self.settings.fps)
 
             pygame.display.flip()
             self.clock.tick(self.settings.fps)

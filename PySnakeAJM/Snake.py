@@ -37,6 +37,7 @@ class Snake(Segment):
         self.rect = self.snake_img.get_rect()
         self.first_seg_rect = self.rect
         self.center_snake()
+        self.segments = [self.first_seg_rect]
 
         self.direction = ''  # Initial direction
 
@@ -51,24 +52,31 @@ class Snake(Segment):
 
 
     def update(self):
-        if self.direction == 'RIGHT' and self.rect.right < self.screen_rect.right:
-            self.rect.x += self.game.settings.snake_speed
-        elif self.direction == 'LEFT' and self.rect.left > 0:
-            self.rect.x -= self.game.settings.snake_speed
-        elif self.direction == 'UP' and self.rect.top > 0:
-            self.rect.y -= self.game.settings.snake_speed
-        elif self.direction == 'DOWN' and self.rect.bottom < self.screen_rect.bottom:
-            self.rect.y += self.game.settings.snake_speed
+        # FIXME: THIS DOESNT WORK?
+        # Assign default value to new_head using the current position
+        new_head = self.first_seg_rect.copy()
+        # Move all segments
+        if self.direction == 'RIGHT' and self.first_seg_rect.right < self.screen_rect.right:
+            new_head = self.first_seg_rect.move(self.settings.snake_speed, 0)
+        elif self.direction == 'LEFT' and self.first_seg_rect.left > 0:
+            new_head = self.first_seg_rect.move(-self.settings.snake_speed, 0)
+        elif self.direction == 'UP' and self.first_seg_rect.top > 0:
+            new_head = self.first_seg_rect.move(0, -self.settings.snake_speed)
+        elif self.direction == 'DOWN' and self.first_seg_rect.bottom < self.screen_rect.bottom:
+            new_head = self.first_seg_rect.move(0, self.settings.snake_speed)
 
-        # if self.moving_up or self.moving_down or self.moving_left:
-        #     print(
-        #         f"Moving Right: {self.moving_right}, Moving Left: {self.moving_left}, Moving Up: {self.moving_up}, Moving Down: {self.moving_down}")
-        #     print(f"Snake Position: x={self.rect.x}, y={self.rect.y}")
+        # Insert new head segment and remove the last segment if the snake has not grown
+        self.segments.insert(0, new_head)
+        if len(self.segments) > self.length:
+            self.segments.pop()
 
     def blitme(self):
         """ Draw the snake at its current location. """
-        self.rotate_image()
-        self.settings.screen.blit(self.snake_img, self.rect)
+        for segment in self.segments:
+            draw.rect(self.settings.screen, self.snake_color, segment)
+
+    def grow(self):
+        self.length += 1
 
     def rotate_image(self):
         if self.direction == 'RIGHT':
