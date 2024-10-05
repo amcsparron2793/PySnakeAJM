@@ -6,34 +6,44 @@ class Segment(sprite.Sprite):
     SEGMENT_LENGTH = 25
     SEGMENT_WIDTH = 10
 
-    def __init__(self, ps_game, x: int, y: int):
-        self.x = x
-        self.y = y
+    def __init__(self, ps_game):
         self.game = ps_game
         self.settings = self.game.settings
         super().__init__()
+        self.first_seg_rect = Rect(0, 0, self.SEGMENT_LENGTH, self.SEGMENT_WIDTH)
 
     def draw(self, x, y):
         rect = Rect(x, y, self.SEGMENT_LENGTH, self.SEGMENT_WIDTH)
         draw.rect(self.settings.screen, WHITE, rect)
 
 
-class Snake(sprite.Sprite):
+class Snake(Segment):
     def __init__(self, ps_game):
-        super().__init__()
         self.game = ps_game
+        super().__init__(self.game)
+
         self.settings = self.game.settings
         self.screen = self.settings.screen
         self.screen_rect = self.screen.get_rect()
         self.length = 1
+
         # Initialize snake_rect with initial position and size
-        self.snake_rect = Rect(0, 0, Segment.SEGMENT_LENGTH, Segment.SEGMENT_WIDTH)
+        self.snake_rect = self.first_seg_rect
         self.center_snake()
 
         self.moving_left = False
         self.moving_right = False
         self.moving_up = False
         self.moving_down = False
+
+    @property
+    def first_segment_location(self):
+        return self.first_seg_rect.x, self.first_seg_rect.y
+
+    @property
+    def front_of_snake(self):
+        return self.first_seg_rect.left
+
 
     def update(self):
         """ Update the snake's position based on the movement flag. """
