@@ -4,6 +4,7 @@ PySnakeAJM.py
 Snake for Python
 
 """
+import random
 import pygame
 from Snake import Snake
 from Apple import Apple
@@ -17,7 +18,13 @@ class PySnakeAJM(InitPySnakeAJM):
         pygame.init()
         super().__init__()
         self.snake = Snake(self)
-        self.apple = Apple(self, 123, 123)
+        self._get_random_apple_location()
+        self.apple = Apple(self, self.apple_x, self.apple_y)
+
+    def _get_random_apple_location(self):
+        self.apple_x = random.randint(0, self.settings.screen_width)
+        self.apple_y = random.randint(0, self.settings.screen_height)
+        print(self.apple_x, self.apple_y)
 
     def _update_and_refresh_snake(self):
         self.snake.update()

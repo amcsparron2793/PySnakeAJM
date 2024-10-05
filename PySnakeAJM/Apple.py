@@ -13,7 +13,7 @@ class Apple(sprite.Sprite):
         self.screen_rect = self.screen.get_rect()
         self.x = x
         self.y = y
-        self.apple_rect = Rect(250, 250, self.SEGMENT_LENGTH, self.SEGMENT_WIDTH)
+        self.apple_rect = Rect(self.x, self.y, self.SEGMENT_LENGTH, self.SEGMENT_WIDTH)
 
     def blitme(self):
         """ Draw the Apple at its current location. """
