@@ -37,7 +37,6 @@ class Snake(sprite.Sprite):
 
     def update(self):
         """ Update the snake's position based on the movement flag. """
-        # FIXME: cant change direction until a wall is hit
         if self.moving_right and self.snake_rect.right < self.screen_rect.right:
             self.snake_rect.x += self.settings.snake_speed
         elif self.moving_right and self.snake_rect.right == self.screen_rect.right:

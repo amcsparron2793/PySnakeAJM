@@ -2,6 +2,13 @@ import pygame
 
 
 class _HIDEventHandler:
+    def _stop_movement_on_any_keypress(self, event):
+        if event.key in (pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN):
+            self.snake.moving_up = False
+            self.snake.moving_down = False
+            self.snake.moving_left = False
+            self.snake.moving_right = False
+
     def _check_keydown_events(self, event):
         """
         This method is responsible for handling keydown events in the game.
@@ -18,6 +25,7 @@ class _HIDEventHandler:
         Example:
             _check_keydown_events(event)
         """
+        self._stop_movement_on_any_keypress(event)
         if event.key == pygame.K_RIGHT:
             # move the snake to the right
             self.snake.moving_right = True
