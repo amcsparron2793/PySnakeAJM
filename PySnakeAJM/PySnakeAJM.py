@@ -5,24 +5,21 @@ Snake for Python
 
 """
 import pygame
-from ConfigAndSettings.Button import Button
-from ConfigAndSettings.HIDEventHandler import _HIDEventHandler
-from ConfigAndSettings.Settings import Settings
 from Snake import Segment, Snake
+from InitGame import InitPySnakeAJM
 
 
 
-class PySnakeAJM(_HIDEventHandler):
+class PySnakeAJM(InitPySnakeAJM):
     clock = pygame.time.Clock()
     def __init__(self):
         pygame.init()
-        self.running = False
-        self.game_active = False
-        self.settings = Settings()
-
-        self.play_button = Button(self, "Start")
-        self.segments = pygame.sprite.Group()
+        super().__init__()
         self.snake = Snake(self)
+
+    def _update_and_refresh_snake(self):
+        self.snake.update()
+        self.snake.biltme()
 
     def _check_system_events(self):
         """
@@ -53,9 +50,7 @@ class PySnakeAJM(_HIDEventHandler):
     def GameLoop(self):
         while self.running:
             self._check_system_events()
-            self.snake.update()
-            self.snake.biltme()
-
+            self._update_and_refresh_snake()
             pygame.display.flip()
             self.clock.tick(self.settings.fps)
 
