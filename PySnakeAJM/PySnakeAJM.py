@@ -20,6 +20,7 @@ class PySnakeAJM(InitPySnakeAJM):
         super().__init__()
         self.snake = Snake(self)
         self.apple = Apple(self, self.apple_x - Apple.SEGMENT_LENGTH, self.apple_y - Apple.SEGMENT_WIDTH)
+        self.score = 0
 
     def _update_snake(self):
         self.settings.screen.fill(BLACK)
@@ -35,6 +36,8 @@ class PySnakeAJM(InitPySnakeAJM):
             self._get_random_apple_location()
             self.snake.length += 1
             self.apple = Apple(self, self.apple_x, self.apple_y)
+            self.score += 10
+            print(self.score)
 
 
     def _check_system_events(self):
